@@ -1,0 +1,15 @@
+/* Define color palette */
+:root {
+    --dark-blue: #2a2f45;
+    --vibrant-pink: #ff007f;
+    --neon-purple: #c800ff;
+    --light-red: #ff4f81;
+    --muted-blue: #384259;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--dark-blue);
+    color: var(--light-red);
+}
