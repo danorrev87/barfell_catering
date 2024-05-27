@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'abeatbykai';
+    src: url('@/assets/fonts/abeatbykai.ttf') format('truetype');
+}
+
+/* Add this to your global CSS file */
+
+html {
+    scroll-behavior: smooth;
+}
+
 /* Define color palette */
 :root {
     --dark-blue: #2a2f45;
@@ -7,9 +18,41 @@
     --muted-blue: #384259;
 }
 
+body::before {
+    content: "";
+    position: fixed;
+    /* Cover the entire viewport */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    /* Black overlay with 70% opacity */
+    z-index: -1;
+    /* Place the overlay behind the content */
+}
+
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: var(--dark-blue);
+    font-family: 'abeatbykai', Arial, sans-serif;
+    background: black;
     color: var(--light-red);
+}
+
+/* Styles for screens with a maximum width of 768px */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px; /* reduce the font size */
+  }
+
+  /* Add other styles as needed */
+}
+
+/* Styles for screens with a maximum width of 480px */
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 12px; /* further reduce the font size */
+  }
+
+  /* Add other styles as needed */
 }
