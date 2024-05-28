@@ -280,6 +280,7 @@ router-link {
 .dropdown a {
   text-decoration: none;
   color: black;
+  display: block;
 }
 
 @media (min-width: 769px) {
