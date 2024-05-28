@@ -12,9 +12,9 @@
         <li><a href="#inicio">Inicio</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#barras">Nuestras Barras</a></li>
+        <li><a href="#tragos">Carta de tragos</a></li>
         <li><a href="#galeria">Galería</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#presupuesto">Pedí tu presupuesto</a></li>
       </ul>
     </nav>
     <transition name="dropdown">
@@ -23,9 +23,9 @@
           <li><a href="#inicio" @click="isNavOpen = false">Inicio</a></li>
           <li><a href="#nosotros" @click="isNavOpen = false">Nosotros</a></li>
           <li><a href="#servicios" @click="isNavOpen = false">Servicios</a></li>
-          <li><a href="#barras" @click="isNavOpen = false">Nuestras Barras</a></li>
+          <li><a href="#tragos" @click="isNavOpen = false">Carta de tragos</a></li>
           <li><a href="#galeria" @click="isNavOpen = false">Galería</a></li>
-          <li><a href="#contacto" @click="isNavOpen = false">Contacto</a></li>
+          <li><a href="#presupuesto" @click="isNavOpen = false">Pedí tu presupuesto</a></li>
         </ul>
       </div>
     </transition>

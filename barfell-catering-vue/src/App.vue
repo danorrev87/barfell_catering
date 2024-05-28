@@ -10,6 +10,7 @@
     <div class="divider"></div>
     <ServiceOptions />
     <div class="divider"></div>
+    <DrinkMenu />
     <Gallery />
     <div class="divider"></div>
     <ContactForm />
@@ -24,6 +25,7 @@ import NavigationBar from './components/NavigationBar.vue';
 import ImageHeader from './components/ImageHeader.vue';
 import AboutUS from './components/AboutUs.vue';
 import ServiceOptions from './components/ServiceOptions.vue';
+import DrinkMenu from './components/DrinkMenu.vue';
 import Gallery from './components/ImageGallery.vue';
 import ContactForm from './components/ContactForm.vue';
 import SiteFooter from './components/SiteFooter.vue';
@@ -36,6 +38,7 @@ export default {
     ImageHeader,
     AboutUS,
     ServiceOptions,
+    DrinkMenu,
     Gallery,
     ContactForm,
     SiteFooter
