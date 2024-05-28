@@ -175,7 +175,7 @@ p {
 /* Adjust the arrow for screens with width less than 600px */
 @media (max-width: 600px) {
     .scroll-arrow {
-        bottom: 10px;
+        bottom: 50px;
         /* Adjust as needed */
         /* Other styles here */
     }
