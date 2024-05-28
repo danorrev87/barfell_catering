@@ -1,25 +1,35 @@
 <template>
-  <nav :class="{ 'transparent': isTransparent, 'solid': !isTransparent }" class="navigation-bar">
-    <img src="@/assets/transparent_logo.png" alt="Logo" class="logo" />
-    <button class="hamburger" @click="isNavOpen = !isNavOpen"
-      :class="{ 'white-lines': isTransparent, 'black-lines': !isTransparent }">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <div>
+    <nav :class="{ 'transparent': isTransparent, 'solid': !isTransparent }" class="navigation-bar">
+      <img class="logo" :src="isTransparent ? logoTransparent : logoSolid" alt="Logo">
+      <button class="hamburger" @click="isNavOpen = !isNavOpen"
+        :class="{ 'white-lines': isTransparent, 'black-lines': !isTransparent }">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links navigation-bar-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#barras">Nuestras Barras</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
     <transition name="dropdown">
-      <div v-if="isNavOpen" class="dropdown">
-        <ul>
-          <li><a href="#inicio">Inicio</a></li>
-          <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#barras">Nuestras Barras</a></li>
-          <li><a href="#galeria">Galería</a></li>
-          <li><a href="#contacto">Contacto</a></li>
+      <div v-show="isNavOpen" class="dropdown">
+        <ul class="dropdown-links">
+          <li><a href="#inicio" @click="isNavOpen = false">Inicio</a></li>
+          <li><a href="#nosotros" @click="isNavOpen = false">Nosotros</a></li>
+          <li><a href="#servicios" @click="isNavOpen = false">Servicios</a></li>
+          <li><a href="#barras" @click="isNavOpen = false">Nuestras Barras</a></li>
+          <li><a href="#galeria" @click="isNavOpen = false">Galería</a></li>
+          <li><a href="#contacto" @click="isNavOpen = false">Contacto</a></li>
         </ul>
       </div>
     </transition>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -29,10 +39,13 @@ export default {
     return {
       isTransparent: true,
       isNavOpen: false,
+      logoTransparent: require('@/assets/transparent_logo.png'),
+      logoSolid: require('@/assets/solid_logo.png'),
     };
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
     this.handleScroll();
     this.handleResize();
   },
@@ -45,11 +58,17 @@ export default {
       }
     },
     handleResize() {
-      this.isNavOpen = window.innerWidth >= 769;
+      if (window.innerWidth >= 769) {
+        this.isNavOpen = false;
+      }
+    },
+    toggleNav() {
+      this.isNavOpen = !this.isNavOpen;
     }
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
   }
 }
 </script>
@@ -76,6 +95,10 @@ export default {
   ul {
     display: none;
   }
+
+  .nav-links {
+    display: none;
+  }
 }
 
 .hamburger span {
@@ -98,24 +121,22 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  /* Ensure it starts from the very left */
   right: 0;
-  /* Ensure it extends to the very right */
   width: 100%;
-  /* Set width to 100% */
   height: 60px;
-  /* Default height */
-  transition: background-color 0.5s ease, box-shadow 0.5s ease, height 0.5s ease;
-  /* Smooth transitions */
   z-index: 1000;
+  transition: background-color 0.5s ease;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .navigation-bar ul {
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  width: auto;
+  /* Updated */
+  align-items: center;
 }
 
 .navigation-bar li {
@@ -136,6 +157,10 @@ export default {
     background: #fff;
     /* change to the color you want */
   }
+
+  .navigation-bar>.navigation-bar-links {
+    display: none;
+  }
 }
 
 .navigation-bar a:hover {
@@ -146,7 +171,7 @@ export default {
 .transparent {
   background-color: transparent;
   box-shadow: none;
-  height: 80px;
+  height: 60px;
   /* Larger height when transparent */
   color: white;
   /* Links are white when transparent */
@@ -172,24 +197,27 @@ export default {
 }
 
 .logo {
-  height: 90px;
-  margin-right: 60px;
-  margin-left: 40px;
+  height: 60px;
+  /* Reduced size */
+  margin-right: auto;
+  /* Push the logo to the left */
+  margin-left: 20px;
+  /* Adjust as needed */
 }
 
 /* Styles for screens with a maximum width of 768px */
 @media screen and (max-width: 768px) {
   .logo {
-    height: 60px;
-    /* adjust this value as needed */
+    height: 40px;
+    /* Reduced size for smaller screens */
     margin-left: 10px;
-    /* adjust this value as needed */
+    /* Adjust as needed */
   }
 }
 
 nav {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: nowrap;
 }
 
 router-link {
@@ -198,17 +226,61 @@ router-link {
 }
 
 .nav-container {
-  position: absolute;
+  position: fixed;
   width: 100%;
   background: white;
-  /* or any color you prefer */
+  display: flex;
+  /* Add this line */
+  justify-content: space-between;
+  /* Add this line */
 }
 
 .dropdown {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  background: white;
+  z-index: 999;
+}
+
+.dropdown-menu {
   position: absolute;
-  width: 100%;
-  left: 0;
-  top: 100%;
+  /* Other styles */
+}
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown li {
+  padding: 10px;
+}
+
+.dropdown a {
+  text-decoration: none;
+  color: black;
+}
+
+@media (min-width: 769px) {
+  .dropdown ul {
+    display: flex;
+  }
+}
+
+@media (min-width: 769px) {
+  .dropdown-links {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
 }
 
 .dropdown-enter-active {
