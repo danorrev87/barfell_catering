@@ -239,8 +239,25 @@ router-link {
   position: fixed;
   top: 60px;
   right: 0;
+  left: 0;
   background: white;
   z-index: 999;
+}
+
+.dropdown-links {
+  list-style-type: none;
+  padding-left: 0; /* Remove padding on the left */
+  text-align: left; /* Align text to the left */
+}
+
+.dropdown-links li {
+  border-bottom: 1px solid #ddd; /* Add a border to the bottom of each item */
+  height: 60px; /* Set the height to match the navbar height */
+  line-height: 60px; /* Vertically center the text */
+}
+
+.dropdown-links li:last-child {
+  border-bottom: none; /* Remove the border from the last item */
 }
 
 .dropdown-menu {
