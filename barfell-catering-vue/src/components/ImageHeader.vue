@@ -2,20 +2,20 @@
     <div id="inicio" class="image-header"></div>
     <div class="image-transition">
         <div class="overlay"></div>
-        <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
-        <!-- <div class="center-text">
-            Honestidad  Trayectoria  Creatividad  Calidad
-        </div> -->
-        <div class="icon-text">
-            <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
-            <span>099459246</span>
-        </div>
-        <div class="image-container" v-for="(image, index) in images" :key="index"
-            :class="{ active: currentIndex === index }">
-            <img :src="image.url" :alt="image.description">
-        </div>
-        <div class="scroll-arrow">
-            <i class="fas fa-angle-down"></i>
+        <div class="content">
+            <img class="logo" src="@/assets/logo_home.png" alt="Barfell logo" />
+            <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
+            <div class="icon-text">
+                <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
+                <span>099459246</span>
+            </div>
+            <div class="image-container" v-for="(image, index) in images" :key="index"
+                :class="{ active: currentIndex === index }">
+                <img :src="image.url" :alt="image.description">
+            </div>
+            <div @click="scrollTo('nosotros')" class="scroll-arrow">
+                <i class="fas fa-angle-down"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -39,6 +39,12 @@ export default {
         this.startImageTransition();
     },
     methods: {
+        scrollTo(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
         startImageTransition() {
             setInterval(() => {
                 this.currentIndex = (this.currentIndex + 1) % this.images.length;
@@ -64,32 +70,38 @@ export default {
 }
 
 p {
-  position: absolute;
-  top: 40%; /* Adjust as needed */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  font-size: 2em; /* Adjust as needed */
-  z-index: 2;
-  margin-bottom: 40px
+    position: absolute;
+    top: 40%;
+    /* Adjust as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    /* Adjust as needed */
+    z-index: 2;
+    margin-bottom: 40px
 }
 
 .icon-text {
-  position: absolute;
-  top: 65%; /* Adjust as needed */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  font-size: 2em; /* Adjust as needed */
-  z-index: 2;
+    position: absolute;
+    top: 65%;
+    /* Adjust as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    /* Adjust as needed */
+    z-index: 2;
 }
 
 .icon-text img {
-  width: 24px; /* Adjust as needed */
-  height: 24px; /* Adjust as needed */
-  margin-right: 10px;
+    width: 24px;
+    /* Adjust as needed */
+    height: 24px;
+    /* Adjust as needed */
+    margin-right: 10px;
 }
 
 @keyframes fadeIn {
@@ -101,6 +113,18 @@ p {
 .divider {
     height: 100px;
     background: linear-gradient(to right top, #ffffff 50%, #f0f0f0 50%);
+}
+
+.logo {
+    width: 180px;
+    /* Adjust as needed */
+    height: 180px;
+    position: absolute;
+    top: 22%;
+    /* Adjust as needed */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
 .overlay {
@@ -139,17 +163,27 @@ p {
 }
 
 .scroll-arrow {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: bounce 2s infinite;
-  z-index: 1;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Adjust the arrow for screens with width less than 600px */
+@media (max-width: 600px) {
+    .scroll-arrow {
+        bottom: 10px;
+        /* Adjust as needed */
+        /* Other styles here */
+    }
 }
 
 .scroll-arrow i {
-  color: white;
-  font-size: 2em;
+    color: white;
+    font-size: 2em;
 }
 
 @keyframes bounce {
