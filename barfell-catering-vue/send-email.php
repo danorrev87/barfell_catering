@@ -1,21 +1,44 @@
 <?php
 require 'vendor/autoload.php';
 
-$apiKey = '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';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$apiKey = '';
 
 $email = new \SendGrid\Mail\Mail(); 
 $email->setFrom("danorrev87@gmail.com", "Danilo Orrego");
 $email->setSubject("Contacto Web Barfell Catering");
 $email->addTo("danorrev87@gmail.com", "Danilo Orrego");
-$email->addContent("text/plain", $_POST['message']);
+
+$message = "Nombre: " . $_POST['name'] . "\n";
+$message .= "Email: " . $_POST['email'] . "\n";
+$message .= "Mensaje: " . $_POST['message'] . "\n";
+
+if (isset($_POST['phone'])) {
+    $message .= "Teléfono de contacto: " . $_POST['phone'] . "\n";
+}
+
+if (isset($_POST['date'])) {
+    $date = DateTime::createFromFormat('Y-m-d', $_POST['date']);
+    $formattedDate = $date->format('d/m/Y');
+    $message .= "Fecha: " . $formattedDate . "\n";
+}
+
+if (isset($_POST['eventType'])) {
+    $message .= "Tipo de Evento: " . $_POST['eventType'] . "\n";
+}
+
+if (isset($_POST['guests'])) {
+    $message .= "Número de Invitados: " . $_POST['guests'] . "\n";
+}
+
+$email->addContent("text/plain", $message);
 
 $sendgrid = new \SendGrid($apiKey);
 
 try {
     $response = $sendgrid->send($email);
-    print $response->statusCode() . "\n";
-    print_r($response->headers());
-    print $response->body() . "\n";
 } catch (Exception $e) {
     echo 'Caught exception: '. $e->getMessage() ."\n";
 }

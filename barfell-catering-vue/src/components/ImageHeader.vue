@@ -6,8 +6,14 @@
             <img class="logo" src="@/assets/logo_home.png" alt="Barfell logo" />
             <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
             <div class="icon-text">
-                <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
-                <span>099459246</span>
+                <a :href="'whatsapp://send?phone=+598' + phoneNumber" target="_blank" class="whatsapp-link mobile-only">
+                    <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
+                    <span>{{ phoneNumber }}</span>
+                </a>
+                <div class="whatsapp-link desktop-only">
+                    <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
+                    <span>{{ phoneNumber }}</span>
+                </div>
             </div>
             <div class="image-container" v-for="(image, index) in images" :key="index"
                 :class="{ active: currentIndex === index }">
@@ -24,6 +30,7 @@
 export default {
     data() {
         return {
+            phoneNumber: '099459246',
             images: [
                 { url: require('@/assets/images/image1.jpeg'), description: 'Image 1' },
                 { url: require('@/assets/images/image2.jpeg'), description: 'Image 2' },
@@ -34,6 +41,11 @@ export default {
             ],
             currentIndex: 0
         };
+    },
+    computed: {
+        isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        },
     },
     mounted() {
         this.startImageTransition();
@@ -107,6 +119,29 @@ p {
 @keyframes fadeIn {
     to {
         opacity: 1;
+    }
+}
+
+.whatsapp-link {
+    color: white;
+    text-decoration: none;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: block;
+}
+
+@media only screen and (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+
+    .desktop-only {
+        display: none;
     }
 }
 
