@@ -9,13 +9,10 @@
     <AboutUS />
     <div class="divider"></div>
     <ServiceOptions />
-    <div class="divider"></div>
     <DrinkMenu />
     <Gallery />
-    <div class="divider"></div>
+    <FaqSection />
     <ContactForm />
-    <div class="divider"></div>
-    <SiteFooter />
   </div>
 </template>
 
@@ -27,8 +24,8 @@ import AboutUS from './components/AboutUs.vue';
 import ServiceOptions from './components/ServiceOptions.vue';
 import DrinkMenu from './components/DrinkMenu.vue';
 import Gallery from './components/ImageGallery.vue';
+import FaqSection from './components/FaqSection.vue';
 import ContactForm from './components/ContactForm.vue';
-import SiteFooter from './components/SiteFooter.vue';
 
 export default {
   name: 'App',
@@ -40,8 +37,8 @@ export default {
     ServiceOptions,
     DrinkMenu,
     Gallery,
+    FaqSection,
     ContactForm,
-    SiteFooter
   },
   data() {
     return {

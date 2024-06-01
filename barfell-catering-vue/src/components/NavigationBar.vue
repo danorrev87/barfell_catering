@@ -14,6 +14,7 @@
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#tragos">Carta de tragos</a></li>
         <li><a href="#galeria">Galería</a></li>
+        <li><a href="#faq">FAQs</a></li>
         <li><a href="#presupuesto">Pedí tu presupuesto</a></li>
       </ul>
     </nav>
@@ -25,6 +26,7 @@
           <li><a href="#servicios" @click="isNavOpen = false">Servicios</a></li>
           <li><a href="#tragos" @click="isNavOpen = false">Carta de tragos</a></li>
           <li><a href="#galeria" @click="isNavOpen = false">Galería</a></li>
+          <li><a href="#faq" @click="isNavOpen = false">FAQs</a></li>
           <li><a href="#presupuesto" @click="isNavOpen = false">Pedí tu presupuesto</a></li>
         </ul>
       </div>
