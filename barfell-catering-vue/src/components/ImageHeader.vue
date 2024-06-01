@@ -6,11 +6,13 @@
             <img class="logo" src="@/assets/logo_home.png" alt="Barfell logo" />
             <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
             <div class="icon-text">
-                <a :href="'whatsapp://send?phone=+598' + phoneNumber" target="_blank" class="whatsapp-link mobile-only">
+                <a v-if="isMobile"
+                    :href="'whatsapp://send?phone=+598' + phoneNumber + '&text=' + encodeURIComponent(predefinedMessage)"
+                    target="_blank" class="whatsapp-link mobile-only">
                     <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
                     <span>{{ phoneNumber }}</span>
                 </a>
-                <div class="whatsapp-link desktop-only">
+                <div v-else class="whatsapp-link desktop-only">
                     <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
                     <span>{{ phoneNumber }}</span>
                 </div>
@@ -31,6 +33,7 @@ export default {
     data() {
         return {
             phoneNumber: '099459246',
+            predefinedMessage: 'Hola! vengo desde la página web de BarfellCatering y me gustaría obtener más información.',
             images: [
                 { url: require('@/assets/images/image1.jpeg'), description: 'Image 1' },
                 { url: require('@/assets/images/image2.jpeg'), description: 'Image 2' },
@@ -44,7 +47,7 @@ export default {
     },
     computed: {
         isMobile() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            return window.innerWidth <= 768;
         },
     },
     mounted() {
