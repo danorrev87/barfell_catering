@@ -1,28 +1,35 @@
 <template>
-    <div id="inicio" class="image-header"></div>
-    <div class="image-transition">
-        <div class="overlay"></div>
-        <div class="content">
-            <img class="logo" src="@/assets/logo_home.png" alt="Barfell logo" />
-            <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
-            <div class="icon-text">
-                <a v-if="isMobile"
-                    :href="'whatsapp://send?phone=+598' + phoneNumber + '&text=' + encodeURIComponent(predefinedMessage)"
-                    target="_blank" class="whatsapp-link mobile-only">
-                    <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
-                    <span>{{ phoneNumber }}</span>
-                </a>
-                <div v-else class="whatsapp-link desktop-only">
-                    <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
-                    <span>{{ phoneNumber }}</span>
+    <div id="inicio" class="image-header" ref="imageHeader">
+        <div class="image-transition">
+            <div class="overlay"></div>
+            <div class="content">
+                <img class="logo" src="@/assets/logo_home.png" alt="Barfell logo" />
+                <p>BARRAS MÓVILES PARA FIESTAS Y EVENTOS</p>
+                <div class="icon-text">
+                    <a v-if="isMobile"
+                        :href="'whatsapp://send?phone=+598' + phoneNumber + '&text=' + encodeURIComponent(predefinedMessage)"
+                        target="_blank" class="whatsapp-link mobile-only">
+                        <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
+                        <span>{{ phoneNumber }}</span>
+                    </a>
+                    <div v-else class="whatsapp-link desktop-only">
+                        <img src="@/assets/whatsapp_icon.png" alt="WhatsApp Icon" />
+                        <span>{{ phoneNumber }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="image-container" v-for="(image, index) in images" :key="index"
-                :class="{ active: currentIndex === index }">
-                <img :src="image.url" :alt="image.description">
-            </div>
-            <div @click="scrollTo('nosotros')" class="scroll-arrow">
-                <i class="fas fa-angle-down"></i>
+                <div :class="['floating-widget', { 'fade-in': isMobile && scrolled }]" v-show="isMobile">
+                    <a :href="'whatsapp://send?phone=+598' + phoneNumber + '&text=' + encodeURIComponent(predefinedMessage)"
+                        target="_blank">
+                        <img src="@/assets/whatsapp_green.png" alt="WhatsApp Icon" />
+                    </a>
+                </div>
+                <div class="image-container" v-for="(image, index) in images" :key="index"
+                    :class="{ active: currentIndex === index }">
+                    <img :src="image.url" :alt="image.description">
+                </div>
+                <div @click="scrollTo('nosotros')" class="scroll-arrow">
+                    <i class="fas fa-angle-down"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -34,6 +41,7 @@ export default {
         return {
             phoneNumber: '099459246',
             predefinedMessage: 'Hola! vengo desde la página web de BarfellCatering y me gustaría obtener más información.',
+            scrolled: false,
             images: [
                 { url: require('@/assets/images/image1.jpeg'), description: 'Image 1' },
                 { url: require('@/assets/images/image2.jpeg'), description: 'Image 2' },
@@ -47,13 +55,20 @@ export default {
     },
     computed: {
         isMobile() {
-            return window.innerWidth <= 768;
+            const mobile = window.innerWidth <= 768;
+            return mobile;
         },
     },
     mounted() {
         this.startImageTransition();
     },
     methods: {
+        checkScroll() {
+            const imageHeaderHeight = this.$refs.imageHeader.offsetHeight;
+            this.$nextTick(() => {
+                this.scrolled = window.scrollY > imageHeaderHeight;
+            });
+        },
         scrollTo(id) {
             const element = document.getElementById(id);
             if (element) {
@@ -64,10 +79,15 @@ export default {
             setInterval(() => {
                 this.currentIndex = (this.currentIndex + 1) % this.images.length;
             }, 5000);
-        }
-    }
+        },
+    },
+    created() {
+        window.addEventListener('scroll', this.checkScroll);
+    },
+    unmounted() {
+        window.removeEventListener('scroll', this.checkScroll);
+    },
 };
-
 </script>
 
 <style scoped>
@@ -241,5 +261,23 @@ p {
     60% {
         transform: translateX(-50%) translateY(-15px);
     }
+}
+
+.floating-widget {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.floating-widget img {
+    width: 40px;
+    height: 40px;
+}
+
+.floating-widget.fade-in {
+    opacity: 1;
 }
 </style>
