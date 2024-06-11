@@ -1,7 +1,8 @@
 <template>
     <div id="tragos" class="drink-menu">
         <div v-for="(drink, index) in drinks" :key="drink.id" class="drink-item"
-            :class="{ 'first-drink': index === 0, 'second-drink': index === 1, 'third-drink': index === 2, 'fourth-drink': index === 3 }" :title="`Más info aquí ${drink.name}`">
+            :class="{ 'first-drink': index === 0, 'second-drink': index === 1, 'third-drink': index === 2, 'fourth-drink': index === 3 }"
+            :title="`Más info aquí ${drink.name}`">
             <img :src="drink.image" :alt="drink.name" class="drink-image" />
             <h2 v-html="drink.name"></h2>
             <p class="drink-description">{{ drink.description }}</p>
@@ -57,7 +58,7 @@ export default {
     /* Use flexbox for layout */
     flex-wrap: wrap;
     /* Allow the items to wrap as needed */
-    justify-content: center;
+    justify-content: space-around;
     /* Center items along the line */
     position: relative;
     /* Set position to relative to contain the pseudo-element */
@@ -66,31 +67,46 @@ export default {
 }
 
 .first-drink {
-    margin-top: 150px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 10%;
+    /* Adjust as needed */
+    left: 18%;
+    /* Adjust as needed */
 }
 
 .second-drink {
     position: absolute;
     top: 20%;
     /* Adjust as needed */
-    left: 50%;
+    left: 60%;
     transform: translateX(-50%);
 }
 
+.third-drink {
+  position: absolute;
+  top: 50%; /* Adjust as needed */
+  left: 70%;
+  transform: translateX(-50%);
+}
+
+.first-drink .drink-image {
+    width: 100px;
+    /* Adjust to desired width */
+}
+
 .second-drink .drink-image {
-    width: 150px;
+    width: 100px;
     /* Adjust to desired width */
 }
 
 .third-drink .drink-image {
-    width: 100px; /* Adjust to desired width */
+    width: 100px;
+    /* Adjust to desired width */
 }
 
 .fourth-drink .drink-image {
-    width: 100px; /* Adjust to desired width */
+    width: 120px;
+    /* Adjust to desired width */
 }
 
 .drink-menu::before {
@@ -109,7 +125,7 @@ export default {
     background:
         linear-gradient(to bottom, #000000 0%, transparent 20%, transparent 80%, #000000 100%),
         radial-gradient(circle at center, transparent, #000000 70%),
-        url('~@/assets/images/background.jpeg');
+        url('~@/assets/images/background3.jpeg');
     background-size: cover, cover, cover;
     /* Resize the gradients and the background image to cover the entire container */
     background-repeat: no-repeat;
@@ -143,9 +159,9 @@ export default {
 
 .drink-item {
     margin-top: 150px;
-    flex: 1 0 21%;
+    flex: 0 0 45%;
     /* Adjust as needed */
-    margin: 1%;
+    margin: 2.5%;
     /* Adjust as needed */
     display: flex;
     align-items: center;
@@ -162,54 +178,64 @@ export default {
 }
 
 .drink-description {
-  position: absolute;
-  background-color: #000; /* Non-transparent color */
-  color: white;
-  border-radius: 50%;
-  padding: 20px;
-  box-sizing: border-box;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  text-align: center;
-  transform-origin: center center;
-  transform: scale(0);
-  width: 200px; /* Increased width */
-  height: 200px; /* Increased height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.2; /* Adjust as needed */
-  border: 2px solid white; /* White border */
-  overflow: hidden; /* Hide text that goes outside the bubble */
-  word-wrap: break-word; /* Break words to the next line */
+    position: absolute;
+    background-color: #000;
+    /* Non-transparent color */
+    color: white;
+    border-radius: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    text-align: center;
+    transform-origin: center center;
+    transform: scale(0);
+    width: 200px;
+    /* Increased width */
+    height: 200px;
+    /* Increased height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    /* Adjust as needed */
+    border: 2px solid white;
+    /* White border */
+    overflow: hidden;
+    /* Hide text that goes outside the bubble */
+    word-wrap: break-word;
+    /* Break words to the next line */
 }
 
 .drink-item:hover .drink-description {
-  opacity: 1;
-  visibility: visible;
-  animation: bubbleOpen 0.3s ease-out forwards, pulse 1s infinite ease-in-out;
+    opacity: 1;
+    visibility: visible;
+    animation: bubbleOpen 0.3s ease-out forwards, pulse 1s infinite ease-in-out;
 }
 
 @keyframes bubbleOpen {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes float {
