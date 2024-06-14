@@ -1,11 +1,16 @@
 <template>
     <div id="tragos" class="drink-menu">
-        <div v-for="(drink, index) in drinks" :key="drink.id" class="drink-item"
-            :class="{ 'first-drink': index === 0, 'second-drink': index === 1, 'third-drink': index === 2, 'fourth-drink': index === 3 }"
-            :title="`Más info aquí ${drink.name}`">
-            <img :src="drink.image" :alt="drink.name" class="drink-image" />
-            <h2 v-html="drink.name"></h2>
-            <p class="drink-description">{{ drink.description }}</p>
+        <img src="../assets/barfell-drink.png" alt="Drink Menu Title" class="drink-title" />
+        <div class="drink-grid">
+            <div v-for="(drink, index) in drinks" :key="drink.id" class="drink-item" @mouseover="mouseEnter(index)"
+                @mouseleave="mouseLeave" ref="drinkItems">
+                <img :src="drink.image" :alt="drink.name" class="drink-image" @click="toggleBubble(index)" />
+                <div v-show="activeBubble === index || hoverIndex === index"
+                    :class="{ 'bubble': true, 'bubble-right': isNearRightEdge(index) }">
+                    <h2 v-html="drink.name"></h2>
+                    <p class="drink-description">{{ drink.description }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -40,20 +45,51 @@ export default {
                     image: require('@/assets/images/vermouth.png'), // Replace with the actual path to your image
                 },
             ],
-        };
+            activeBubble: null,
+            hoverIndex: null
+        }
     },
+    methods: {
+        toggleBubble(index) {
+            this.activeBubble = this.activeBubble === index ? null : index;
+        },
+        mouseEnter(index) {
+            this.hoverIndex = index;
+        },
+        mouseLeave() {
+            this.hoverIndex = null;
+        },
+        isNearRightEdge(index) {
+        this.$nextTick(() => {
+            const item = this.$refs.drinkItems[index];
+            const bounding = item.getBoundingClientRect();
+            return bounding.right > (window.innerWidth || document.documentElement.clientWidth);
+        });
+    }
+    }
 };
 </script>
 
 <style scoped>
+.drink-title {
+    width: 50%;
+    /* adjust as needed */
+    height: auto;
+    /* maintain aspect ratio */
+    object-fit: contain;
+    /* ensure the image scales correctly */
+    display: block;
+    /* to allow for centering */
+    margin: 0 auto;
+    /* center the image */
+}
+
 .drink-menu {
-    padding-top: 170px;
+    padding-top: 80px;
     box-shadow: inset 0 20px 40px -10px #000000;
     /* Add an inset shadow at the top */
     width: 100vw;
     /* Full viewport width */
-    height: 100vh;
-    /* Full viewport height */
     display: flex;
     /* Use flexbox for layout */
     flex-wrap: wrap;
@@ -83,10 +119,11 @@ export default {
 }
 
 .third-drink {
-  position: absolute;
-  top: 50%; /* Adjust as needed */
-  left: 70%;
-  transform: translateX(-50%);
+    position: absolute;
+    top: 50%;
+    /* Adjust as needed */
+    left: 70%;
+    transform: translateX(-50%);
 }
 
 .first-drink .drink-image {
@@ -157,14 +194,13 @@ export default {
     /* Place it behind the items, but in front of the ::before pseudo-element */
 }
 
+.drink-item:hover,
+.drink-item:active {
+    z-index: 1;
+}
+
 .drink-item {
-    margin-top: 150px;
-    flex: 0 0 45%;
-    /* Adjust as needed */
-    margin: 2.5%;
-    /* Adjust as needed */
-    display: flex;
-    align-items: center;
+    position: relative;
 }
 
 .drink-image {
@@ -175,6 +211,63 @@ export default {
     animation: float 3s ease-in-out infinite;
     position: relative;
     margin-right: 20px;
+}
+
+.drink-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.bubble {
+    /* styles for the bubble */
+    position: absolute;
+    z-index: 1;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+}
+
+.bubble-right {
+    right: 0; /* position the bubble at the right edge of the .drink-item */
+}
+
+/* Responsive styles for small devices */
+@media (max-width: 600px) {
+    .drink-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .drink-item {
+        width: 100%;
+        /* take full width */
+        text-align: center;
+        /* center the content */
+        position: relative;
+    }
+
+    .drink-image {
+        width: 50%;
+        /* reduce image size */
+        height: auto;
+        /* maintain aspect ratio */
+        margin: 0 auto;
+        /* center the image */
+    }
+
+    .bubble {
+        display: block;
+    }
+}
+
+/* Styles for larger devices */
+@media (min-width: 601px) {
+    .drink-item:hover .bubble {
+        display: block;
+    }
 }
 
 .drink-description {
